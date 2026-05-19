@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 function App() {
   const [mode, setMode] = useState("passenger");
   const [trains, setTrains] = useState([]);
@@ -70,14 +72,14 @@ function App() {
   }
 
   function loadTrains() {
-    fetch("http://localhost:3000/api/trains")
+    fetch(`${API_URL}/api/trains`)
       .then((res) => res.json())
       .then((data) => setTrains(data))
       .catch((err) => console.error(err));
   }
 
   function loadAdminSummary() {
-    fetch("http://localhost:3000/api/admin/summary")
+    fetch(`${API_URL}/api/admin/summary`)
       .then((res) => res.json())
       .then((data) => setAdminSummary(data))
       .catch((err) => console.error(err));
@@ -93,7 +95,7 @@ function App() {
         journeyDate: searchDate
       });
 
-      const res = await fetch(`http://localhost:3000/api/trains/search?${params}`);
+      const res = await fetch(`${API_URL}/api/trains/search?${params}`);
       const data = await res.json();
 
       if (!res.ok) {
@@ -138,7 +140,7 @@ function App() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/bookings", {
+      const res = await fetch(`${API_URL}/api/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -193,7 +195,7 @@ function App() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/payments", {
+      const res = await fetch(`${API_URL}/api/payments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -225,7 +227,7 @@ function App() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:3000/api/bookings/${lookupEmail}`);
+      const res = await fetch(`${API_URL}/api/bookings/${lookupEmail}`);
       const data = await res.json();
 
       if (!res.ok) {
@@ -253,7 +255,7 @@ function App() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/trains", {
+      const res = await fetch(`${API_URL}/api/trains`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -290,7 +292,7 @@ function App() {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/tickets/${cancelTicketId}/cancel`,
+        `${API_URL}/api/tickets/${cancelTicketId}/cancel`,
         {
           method: "PUT"
         }
@@ -331,7 +333,7 @@ function App() {
     try {
       const params = new URLSearchParams({ journeyDate: date });
       const res = await fetch(
-        `http://localhost:3000/api/trains/${trainId}/seats?${params}`
+        `${API_URL}/api/trains/${trainId}/seats?${params}`
       );
       const data = await res.json();
       setSeats(data);
@@ -358,7 +360,7 @@ function App() {
     e.preventDefault();
 
     const res = await fetch(
-      `http://localhost:3000/api/trains/${editingTrain.train_id}`,
+      `${API_URL}/api/trains/${editingTrain.train_id}`,
       {
         method: "PUT",
         headers: {
@@ -383,7 +385,7 @@ function App() {
 
     if (!confirmed) return;
 
-    const res = await fetch(`http://localhost:3000/api/trains/${trainId}`, {
+    const res = await fetch(`${API_URL}/api/trains/${trainId}`, {
       method: "DELETE"
     });
 
