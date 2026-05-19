@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 
 app.get("/api/trains", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM Train");
+    const [rows] = await db.query("SELECT * FROM train");
     res.json(rows);
   } catch (error) {
     console.error(error);
